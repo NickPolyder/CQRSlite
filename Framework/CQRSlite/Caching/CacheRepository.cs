@@ -73,7 +73,7 @@ namespace CQRSlite.Caching
                 {
                     aggregate = (T) await _cache.Get(aggregateId).ConfigureAwait(false);
                     var events = await _eventStore.Get(aggregateId, aggregate.Version, cancellationToken).ConfigureAwait(false);
-                    if (events.Any() && events.First().Version != aggregate.Version + 1)
+                    if (events.Length > 0 && events[0].Version != aggregate.Version + 1)
                     {
                         await _cache.Remove(aggregateId).ConfigureAwait(false);
                     }

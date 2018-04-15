@@ -41,5 +41,6 @@ namespace CQRSlite.Domain.Factories
                 throw new MissingParameterLessConstructorException(typeof(T));
             }
         }
+
     }
 }

@@ -28,7 +28,6 @@ namespace CQRSlite.Infrastructure
                 method = m == null ? null : new CompiledMethodInfo(m, type);
 
                 var dict = new Dictionary<int, CompiledMethodInfo>(_cachedMembers) {{hash, method}};
-
                 _cachedMembers = dict;
                 return method?.Invoke(obj, args);
             }

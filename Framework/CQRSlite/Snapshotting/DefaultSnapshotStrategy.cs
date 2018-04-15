@@ -11,14 +11,18 @@ namespace CQRSlite.Snapshotting
     public class DefaultSnapshotStrategy : ISnapshotStrategy
     {
         private const int snapshotInterval = 100;
+
         public bool IsSnapshotable(Type aggregateType)
         {
-            if (aggregateType.GetTypeInfo().BaseType == null)
+            var aggregateBaseType = aggregateType.GetTypeInfo().BaseType;
+            if (aggregateBaseType == null)
                 return false;
-            if (aggregateType.GetTypeInfo().BaseType.GetTypeInfo().IsGenericType &&
-                aggregateType.GetTypeInfo().BaseType.GetGenericTypeDefinition() == typeof(SnapshotAggregateRoot<>))
+
+            if (aggregateBaseType.GetTypeInfo().IsGenericType &&
+                aggregateBaseType.GetGenericTypeDefinition() == typeof(SnapshotAggregateRoot<>))
                 return true;
-            return IsSnapshotable(aggregateType.GetTypeInfo().BaseType);
+
+            return IsSnapshotable(aggregateBaseType);
         }
 
         public bool ShouldMakeSnapShot(AggregateRoot aggregate)
